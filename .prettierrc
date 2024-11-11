@@ -1,0 +1,9 @@
+{
+  "trailingComma": "all",
+  "singleQuote": false,
+  "htmlWhitespaceSensitivity": "css",
+  "jsxSingleQuote": false,
+  "printWidth": 80,
+  "proseWrap": "never",
+  "quoteProps": "as-needed"
+}
