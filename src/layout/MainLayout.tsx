@@ -1,24 +1,24 @@
 import {
   LaptopOutlined,
   NotificationOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
-import React from "react";
-import { Outlet } from "react-router-dom";
+  UserOutlined
+} from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
+const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
   key,
-  label: `nav ${key}`,
+  label: `nav ${key}`
 }));
 
-const items2: MenuProps["items"] = [
+const items2: MenuProps['items'] = [
   UserOutlined,
   LaptopOutlined,
-  NotificationOutlined,
+  NotificationOutlined
 ].map((icon, index) => {
   const key = String(index + 1);
 
@@ -30,57 +30,57 @@ const items2: MenuProps["items"] = [
       const subKey = index * 4 + j + 1;
       return {
         key: subKey,
-        label: `option${subKey}`,
+        label: `option${subKey}`
       };
-    }),
+    })
   };
 });
 
 const MainLayout = () => {
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer, borderRadiusLG }
   } = theme.useToken();
 
   return (
     <Layout>
-      <Header style={{ display: "flex", alignItems: "center" }}>
+      <Header style={{ display: 'flex', alignItems: 'center' }}>
         <div className="demo-logo" />
         <Menu
           theme="dark"
           mode="horizontal"
-          defaultSelectedKeys={["2"]}
+          defaultSelectedKeys={['2']}
           items={items1}
           style={{ flex: 1, minWidth: 0 }}
         />
       </Header>
-      <Content style={{ padding: "0 48px" }}>
-        <Breadcrumb style={{ margin: "16px 0" }}>
+      <Content style={{ padding: '0 48px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>Home</Breadcrumb.Item>
           <Breadcrumb.Item>List</Breadcrumb.Item>
           <Breadcrumb.Item>App</Breadcrumb.Item>
         </Breadcrumb>
         <Layout
           style={{
-            padding: "24px 0",
+            padding: '24px 0',
             background: colorBgContainer,
-            borderRadius: borderRadiusLG,
+            borderRadius: borderRadiusLG
           }}
         >
           <Sider style={{ background: colorBgContainer }} width={200}>
             <Menu
               mode="inline"
-              defaultSelectedKeys={["1"]}
-              defaultOpenKeys={["sub1"]}
-              style={{ height: "100%" }}
+              defaultSelectedKeys={['1']}
+              defaultOpenKeys={['sub1']}
+              style={{ height: '100%' }}
               items={items2}
             />
           </Sider>
-          <Content style={{ padding: "0 24px", minHeight: 280 }}>
+          <Content style={{ padding: '0 24px', minHeight: 280 }}>
             <Outlet />
           </Content>
         </Layout>
       </Content>
-      <Footer style={{ textAlign: "center" }}>
+      <Footer style={{ textAlign: 'center' }}>
         Ant Design ©{new Date().getFullYear()} Created by Ant UED
       </Footer>
     </Layout>

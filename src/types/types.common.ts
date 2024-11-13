@@ -2,7 +2,7 @@ export enum RoleUser {
   ADMIN = 1,
   CUSTOMER = 2,
   EMPLOYEE = 3,
-  STAFF = 4,
+  STAFF = 4
 }
 
 export interface User {
@@ -40,10 +40,3 @@ export interface Category {
   categoryName?: string;
   price?: number;
 }
-
-export type ActionReduxType = {
-  type: string;
-  payload?: any;
-};
-
-export type DispatchType<T> = (args: T) => T;
