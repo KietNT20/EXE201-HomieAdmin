@@ -1,6 +1,5 @@
-import { authService } from '@/services/authService';
-import tokenMethod from '@/util/token';
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { handleSaveUserDetail } from '../actions/profile/profile.thunks';
 import { UserProfile, UserProfileState } from '../actions/profile/types.action';
 
 const initialState: UserProfileState = {
@@ -24,13 +23,10 @@ const userProfileSlice = createSlice({
       .addCase(handleSaveUserDetail.pending, (state) => {
         state.userLoading = true;
       })
-      .addCase(
-        handleSaveUserDetail.fulfilled,
-        (state, action: PayloadAction<UserProfile>) => {
-          state.userProfile = action.payload;
-          state.userLoading = false;
-        }
-      )
+      .addCase(handleSaveUserDetail.fulfilled, (state, action) => {
+        state.userProfile = action.payload;
+        state.userLoading = false;
+      })
       .addCase(handleSaveUserDetail.rejected, (state) => {
         state.userLoading = false;
       });
@@ -43,18 +39,3 @@ const { actions, reducer: profileReducer } = userProfileSlice;
 export const { saveUserProfile, clearUserProfile } = actions;
 // Export the reducer, either as a default or named export
 export default profileReducer;
-
-export const handleSaveUserDetail = createAsyncThunk(
-  'userProfile/saveUserProfile',
-  async (_, thunkApi) => {
-    try {
-      // Lấy token đã lưu
-      const token = tokenMethod.get()?.token;
-      if (!token) return thunkApi.rejectWithValue('No token');
-      const response = await authService.getUserByToken(token);
-      return response.data as UserProfile;
-    } catch (error) {
-      return thunkApi.rejectWithValue(error);
-    }
-  }
-);

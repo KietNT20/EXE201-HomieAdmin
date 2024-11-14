@@ -7,3 +7,11 @@ export type Response<T> = {
 export type TokenResponse = {
   token: Token;
 };
+
+export interface LoginResponse {
+  data: {
+    data: {
+      tokenString: string;
+    };
+  };
+}
