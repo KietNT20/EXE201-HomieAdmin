@@ -6,44 +6,57 @@ export enum RoleUser {
 }
 
 export interface User {
-  id?: number;
-  name?: string;
-  email?: string;
-  password?: string;
-  phone?: string;
-  dateOfBirth?: Date | null;
-  gender?: 'male' | 'female';
-  roleId?: RoleUser;
+  id?: number
+  name?: string
+  email?: string
+  password?: string
+  phone?: string
+  dateOfBirth?: Date | null
+  gender?: 'Male' | 'Female'
+  roleId?: RoleUser
 }
 
 export interface Profile {
-  userID?: number;
-  bio?: string;
-  skill?: string;
-  experience?: string;
-  availability?: string;
-  ratingAvg?: number;
+  userID?: number
+  bio?: string
+  skill?: string
+  experience?: string
+  availability?: string
+  ratingAvg?: number
 }
 
 export interface Transaction {
-  transactionId?: number;
-  walletId?: number;
-  userId?: number;
-  transactionType?: string;
-  amount?: number;
-  transactionDate?: number;
-  description?: string;
-  eWallet?: string;
+  transactionId: number
+  walletId?: number
+  userId?: number
+  transactionType?: string
+  amount?: number
+  transactionDate?: number
+  description?: string
+  eWallet?: string
 }
 export interface Category {
-  id?: number;
-  categoryName?: string;
-  price?: number;
+  id: number
+  categoryName?: string
+  price?: number
 }
 
-export type ActionReduxType = {
-  type: string;
-  payload?: any;
-};
-
-export type DispatchType<T> = (args: T) => T;
+export interface JobPost {
+  jobId: number
+  employerId: number
+  title: string
+  description: string
+  location: string
+  squareMeters: number
+  numberOfFloors: number
+  startDate: string
+  endDate: string
+  price: number
+  status: string
+  createDate: string
+  categoryJobPost: [
+    {
+      categoriesId: number
+    },
+  ]
+}
