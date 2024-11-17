@@ -3,26 +3,30 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PieChartOutlined,
-  UserOutlined
-} from '@ant-design/icons';
-import { Button, Layout, Menu, theme } from 'antd';
-import React, { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { handleMenuClick } from './handleMenuClick';
+  UserOutlined,
+} from '@ant-design/icons'
+import { Button, Layout, Menu, theme } from 'antd'
+import React, { useState } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { handleMenuClick } from './handleMenuClick'
+import { logo } from '@/constant/image'
 
-const { Header, Sider, Content, Footer } = Layout;
+const { Header, Sider, Content, Footer } = Layout
 
 const MainLayout: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false)
   const {
-    token: { colorBgContainer, borderRadiusLG }
-  } = theme.useToken();
-  const navigate = useNavigate();
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken()
+  const navigate = useNavigate()
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div>{/* <img src={logo} alt="Logo Homie" /> */}</div>
+        <div>
+          {' '}
+          <img src={logo} alt="Logo Homie" className='object-cover' />{' '}
+        </div>
         <Menu
           theme="dark"
           mode="inline"
@@ -30,20 +34,20 @@ const MainLayout: React.FC = () => {
           onClick={handleMenuClick(navigate)}
           items={[
             {
-              key: '0',
-              icon: <HomeOutlined />,
-              label: 'Home'
-            },
-            {
               key: '1',
-              icon: <PieChartOutlined />,
-              label: 'Dashboard'
+              icon: <HomeOutlined />,
+              label: 'Home',
             },
             {
               key: '2',
+              icon: <PieChartOutlined />,
+              label: 'Dashboard',
+            },
+            {
+              key: '3',
               icon: <UserOutlined />,
-              label: 'User'
-            }
+              label: 'User',
+            },
           ]}
         />
       </Sider>
@@ -56,7 +60,7 @@ const MainLayout: React.FC = () => {
             style={{
               fontSize: '16px',
               width: 64,
-              height: 64
+              height: 64,
             }}
           />
         </Header>
@@ -66,7 +70,7 @@ const MainLayout: React.FC = () => {
             padding: 24,
             minHeight: 280,
             background: colorBgContainer,
-            borderRadius: borderRadiusLG
+            borderRadius: borderRadiusLG,
           }}
         >
           <Outlet />
@@ -76,7 +80,7 @@ const MainLayout: React.FC = () => {
         </Footer>
       </Layout>
     </Layout>
-  );
-};
+  )
+}
 
-export default MainLayout;
+export default MainLayout

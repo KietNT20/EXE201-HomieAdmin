@@ -1,69 +1,45 @@
-import { userService } from '@/services/userService';
-import { User } from '@/types/types.common';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { userService } from '@/services/userService'
+import { UserPayload } from '@/types/types.payload'
+import { UserListResponse } from '@/types/types.response'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { notification } from 'antd'
 
-export const useGetApiUsers = () => {
-  const { data, ...rest } = useQuery({
-    queryKey: ['users'],
-    queryFn: () => userService.getUserList(),
+export const useGetApiUsers = (params: {
+  pageSize?: number
+  pageNumber?: number
+}) => {
+  const { data: getAllUsersData, ...rest } = useQuery<UserListResponse>({
+    queryKey: ['users', params.pageNumber, params.pageSize],
+    queryFn: () =>
+      userService.getUserList(
+        `?pageSize=${params.pageSize}&pageNumber=${params.pageNumber}`,
+      ),
     throwOnError: true,
-  });
+  })
 
   return {
-    data,
+    getAllUsersData,
     ...rest,
-  };
-};
+  }
+}
 
-export const useGetUserById = (userId?: number | null) => {
-  const { data, ...rest } = useQuery({
+export const useGetUserById = (userId: number) => {
+  const { data: getUserDetailData, ...rest } = useQuery({
     queryKey: ['user', userId],
-    queryFn: () => userService.getUserById(userId!),
+    queryFn: async () => await userService.getUserById(userId),
     enabled: !!userId,
     throwOnError: false,
-    retry: 1,
-  });
+  })
 
   return {
-    data,
+    getUserDetailData,
     ...rest,
-  };
-};
+  }
+}
 export const useCreateUser = () => {
-  const queryClient = useQueryClient();
-  const { mutate, ...rest } = useMutation({
-    mutationFn: ({ name, email, password, phone, dateOfBirth, gender }: User) =>
-      userService.createUser({
-        name,
-        email,
-        password,
-        phone,
-        dateOfBirth,
-        gender,
-        roleId: 2,
-      }),
-    onSuccess: () => {
-      toast.dismiss();
-      queryClient.invalidateQueries({
-        queryKey: ['users'],
-      });
-      toast.success('Create User Successfully!!');
-    },
-    onError: (err) => {
-      toast.dismiss();
-      console.error('Error:', err);
-      toast.error('Create User Failed');
-    },
-  });
-  return { mutate, ...rest };
-};
-
-export const useUpdateUser = () => {
-  const queryClient = useQueryClient();
-  const { mutate, ...rest } = useMutation({
+  const queryClient = useQueryClient()
+  const { mutate: doCreateUser, ...rest } = useMutation({
     mutationFn: ({
-      id,
       name,
       email,
       password,
@@ -71,9 +47,8 @@ export const useUpdateUser = () => {
       dateOfBirth,
       gender,
       roleId,
-    }: User) =>
-      userService.updateUser({
-        id,
+    }: UserPayload) =>
+      userService.createUser({
         name,
         email,
         password,
@@ -82,19 +57,54 @@ export const useUpdateUser = () => {
         gender,
         roleId,
       }),
-    onSuccess: () => {
-      toast.dismiss();
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
         queryKey: ['users'],
-      });
-      toast.success('Update User Successfully!!');
+      })
     },
     onError: (err) => {
-      toast.dismiss();
-      console.error('Error:', err);
-      toast.error('Update User Failed');
+      console.error('Error:', err)
     },
-  });
+  })
+  return { doCreateUser, ...rest }
+}
 
-  return { mutate, ...rest };
-};
+export const useUpdateUser = (userId: number) => {
+  const queryClient = useQueryClient()
+  const { mutate: doUpdateUser, ...rest } = useMutation({
+    mutationFn: ({
+      name,
+      email,
+      password,
+      phone,
+      dateOfBirth,
+      gender,
+      roleId,
+    }: UserPayload) =>
+      userService.updateUser(userId, {
+        name,
+        email,
+        password,
+        phone,
+        dateOfBirth,
+        gender,
+        roleId,
+      }),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['users', userId],
+      })
+      notification.success({
+        message: 'Update user successfully',
+      })
+    },
+    onError: (err) => {
+      console.error('Error:', err)
+      notification.error({
+        message: 'Update user failed',
+      })
+    },
+  })
+
+  return { doUpdateUser, ...rest }
+}

@@ -8,5 +8,5 @@ export enum PATH {
   CATEGORY = '/category',
   NOT_FOUND = '/404',
   USER = '/user',
-  E_WALLET = '/e-wallet'
+  E_WALLET = '/e-wallet',
 }

@@ -1,12 +1,13 @@
-import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { PersistGate } from 'redux-persist/integration/react';
-import App, { queryClient } from './App.tsx';
-import store, { persistor } from './store/store.ts';
+import { QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
+import { PersistGate } from 'redux-persist/integration/react'
+import App, { queryClient } from './App.tsx'
+import './index.css'
+import store, { persistor } from './store/store.ts'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -23,5 +24,5 @@ createRoot(document.getElementById('root')!).render(
       {/* The rest of your application */}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
-  </StrictMode>
-);
+  </StrictMode>,
+)

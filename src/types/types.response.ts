@@ -1,17 +1,35 @@
-export type Token = string;
+import { Category, User } from './types.common'
+export type Token = string
 export type Response<T> = {
-  data: T;
-  message: string;
-  status: number;
-};
+  data: T
+  message: string
+  status: number
+}
+
 export type TokenResponse = {
-  token: Token;
-};
+  token: Token
+}
 
 export interface LoginResponse {
   data: {
     data: {
-      tokenString: string;
-    };
-  };
+      tokenString: string
+    }
+  }
+}
+
+export interface CategoryResponse {
+  data: Category[]
+}
+
+export interface UserListResponse {
+  data: {
+    data: {
+      result: User[]
+      totalPages?: number
+      currentPage?: number
+      pageSize?: number
+      totalItems?: number
+    }
+  }
 }

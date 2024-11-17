@@ -1,3 +1,3 @@
 export const STORAGE = {
-  token: "homie-cms-token",
-};
+  token: 'homie-cms-token',
+}
