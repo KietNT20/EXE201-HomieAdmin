@@ -1,3 +1,5 @@
+import { JobPostStatus } from "./types.utils"
+
 export enum RoleUser {
   ADMIN = 1,
   CUSTOMER = 2,
@@ -52,7 +54,7 @@ export interface JobPost {
   startDate: string
   endDate: string
   price: number
-  status: string
+  status: JobPostStatus
   createDate: string
   categoryJobPost: [
     {

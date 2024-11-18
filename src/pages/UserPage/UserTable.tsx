@@ -3,7 +3,7 @@ import { RoleUser, User } from '@/types/types.common'
 import { EditOutlined } from '@ant-design/icons'
 import { Button, Space, Table, Tag } from 'antd'
 import dayjs from 'dayjs'
-import AddMoneyButton from './AddMoneyButton'
+import WalletModal from './WalletModal'
 
 interface UserTableProps {
   data: User[]
@@ -64,7 +64,7 @@ const UserTable = ({ data, loading, onEdit }: UserTableProps) => {
       title: 'Thao tác',
       key: 'action',
       render: (_: unknown, record: User) => (
-        <Space>
+        <Space size="middle">
           <Button
             type="primary"
             icon={<EditOutlined />}
@@ -72,15 +72,7 @@ const UserTable = ({ data, loading, onEdit }: UserTableProps) => {
           >
             Sửa
           </Button>
-          {/* <Button
-            type="primary"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => onDelete(record)}
-          >
-            Xóa
-          </Button> */}
-          <AddMoneyButton userId={record.id!} />
+          <WalletModal userId={record.id!} userName={record.name || ''} />
         </Space>
       ),
     },

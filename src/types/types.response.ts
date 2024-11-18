@@ -1,4 +1,4 @@
-import { Category, User } from './types.common'
+import { Category, JobPost, User } from './types.common'
 export type Token = string
 export type Response<T> = {
   data: T
@@ -31,5 +31,20 @@ export interface UserListResponse {
       pageSize?: number
       totalItems?: number
     }
+  }
+}
+
+export interface EWalletUserResponse {
+  data: {
+    data: {
+      userId: number
+      balance: number
+    }
+  }
+}
+
+export interface JobPostResponse {
+  data: {
+    data: JobPost[]
   }
 }

@@ -6,10 +6,6 @@ export interface ApplicationPayload {
   message?: string
 }
 
-export interface CategoryPayload {
-  categoryId: number
-}
-
 export interface JobPostPayload {
   userId: number
   title: string
@@ -21,7 +17,9 @@ export interface JobPostPayload {
   endDate: string
   status: string
   createDate: string
-  categorys: CategoryPayload[]
+  categorys: Array<{
+    categoryId: number
+  }>
 }
 
 export interface EWalletPayload {
