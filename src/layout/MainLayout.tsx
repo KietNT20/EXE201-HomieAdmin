@@ -1,3 +1,8 @@
+import { PATH } from '@/constant/constant'
+import { logo } from '@/constant/image'
+import { useAppDispatch } from '@/hooks/useReduxHooks'
+import { clearUserProfile } from '@/store/reducers/userProfile.reducer'
+import tokenMethod from '@/util/token'
 import {
   HomeOutlined,
   MenuFoldOutlined,
@@ -6,31 +11,49 @@ import {
   UserOutlined,
 } from '@ant-design/icons'
 import { Button, Layout, Menu, theme } from 'antd'
-import React, { useState } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { useMemo, useState } from 'react'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { handleMenuClick } from './handleMenuClick'
-import { logo } from '@/constant/image'
 
 const { Header, Sider, Content, Footer } = Layout
 
-const MainLayout: React.FC = () => {
+// Map routes to menu keys
+const pathToKey: Record<string, string> = {
+  [PATH.HOME]: '1',
+  [PATH.DASHBOARD]: '2',
+  [PATH.USER]: '3',
+}
+
+const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken()
   const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useAppDispatch()
+
+  // Get current selected key based on pathname
+  const selectedKey = useMemo(() => {
+    return pathToKey[location.pathname] || '1'
+  }, [location.pathname])
+
+  const handleLogout = () => {
+    tokenMethod.remove()
+    dispatch(clearUserProfile())
+    navigate(PATH.LOGIN, { replace: true })
+  }
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div>
-          {' '}
-          <img src={logo} alt="Logo Homie" className='object-cover' />{' '}
+          <img src={logo} alt="Logo Homie" className="object-cover" />
         </div>
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['1']}
+          selectedKeys={[selectedKey]}
           onClick={handleMenuClick(navigate)}
           items={[
             {
@@ -52,7 +75,15 @@ const MainLayout: React.FC = () => {
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
+        <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -63,11 +94,18 @@ const MainLayout: React.FC = () => {
               height: 64,
             }}
           />
+          <Button
+            type="default"
+            danger
+            className="hover:bg-red-600 mr-4"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
         </Header>
         <Content
           style={{
             margin: '24px 16px',
-            padding: 24,
             minHeight: 280,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,

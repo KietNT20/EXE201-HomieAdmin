@@ -1,6 +1,6 @@
 export enum JobPostStatus {
   DONE = "Done",
   CANCEL = "Cancel",
-  PENDING = "Pending",
+  PENDING = "Waiting",
   RECEIVED = "Application",
 }

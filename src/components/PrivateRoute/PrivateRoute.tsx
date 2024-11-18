@@ -1,5 +1,6 @@
 import { PATH } from '@/constant/constant'
 import { useAppSelector } from '@/hooks/useReduxHooks'
+import { RoleUser } from '@/types/types.common'
 import tokenMethod from '@/util/token'
 import { Navigate, Outlet } from 'react-router-dom'
 
@@ -8,9 +9,9 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute = ({ redirectPath = PATH.LOGIN }: PrivateRouteProps) => {
-  const token = tokenMethod.get()
+  const token = tokenMethod.get()?.token
   const { userProfile } = useAppSelector((state) => state.profile)
-  if (!token?.token || !(userProfile?.roleId === 1)) {
+  if (!token || userProfile?.roleId !== RoleUser.ADMIN) {
     return <Navigate replace to={redirectPath} />
   }
 

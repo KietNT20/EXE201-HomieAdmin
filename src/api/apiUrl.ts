@@ -1,10 +1,11 @@
-const APPLICATION = '/Application';
-const AUTH = '/Auth';
-const E_WALLET = '/EWallet';
-const JOB_POST = '/JobPost';
-const PROFILES = '/Profiles';
-const TRANSACTION = '/TransactionHistory';
-const USER = '/User';
+const APPLICATION = '/Application'
+const AUTH = '/Auth'
+const E_WALLET = '/EWallet'
+const JOB_POST = '/JobPost'
+const PROFILES = '/Profiles'
+const TRANSACTION = '/TransactionHistory'
+const USER = '/User'
+const DASHBOARD = '/Dashboard'
 
 export const API = {
   APPLICATION_API: {
@@ -48,4 +49,10 @@ export const API = {
     GET_ALL: '/Category/getAll',
     GET_BY_ID: '/Category/getById',
   },
-};
+  DASHBOARD_API: {
+    GET_TOTAL_AMOUNT: DASHBOARD + '/getTotalAmount',
+    REN_BY_MONTH: DASHBOARD + '/RenuveByMonth',
+    TOTAL_APPLICATION: DASHBOARD + '/TotalApplication',
+    TOTAL_POST: DASHBOARD + '/TotalPost',
+  },
+}
