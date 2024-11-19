@@ -16,6 +16,7 @@ export interface User {
   dateOfBirth?: Date | null
   gender?: 'Male' | 'Female'
   roleId?: RoleUser
+  status?: boolean
 }
 
 export interface Profile {
