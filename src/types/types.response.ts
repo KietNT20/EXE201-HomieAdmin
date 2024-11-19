@@ -48,3 +48,9 @@ export interface JobPostResponse {
     data: JobPost[]
   }
 }
+
+export interface UserResponse {
+  data: {
+    data: User
+  }
+}

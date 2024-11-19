@@ -1,18 +1,19 @@
-import { useGetApiUsers } from '@/hooks/useManageUser'
+import { useBlockUser, useGetApiUsers } from '@/hooks/useManageUser'
 import { User } from '@/types/types.common'
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons'
-import { Button, Card, Input, Modal, Pagination, message } from 'antd'
-import { useState } from 'react'
+import { Button, Card, Input, Modal, Pagination } from 'antd'
+import { useEffect, useState } from 'react'
 import UserForm from './UserForm'
 import UserTable from './UserTable'
 import { useUserForm } from './useUserForm'
 
 const { Search } = Input
 
-const UserPage: React.FC = () => {
+const UserPage = () => {
   const [pageSize, setPageSize] = useState<number>(5)
   const [pageNumber, setPageNumber] = useState<number>(1)
   const [searchTerm, setSearchTerm] = useState<string>('')
+  const [blockedUsers, setBlockedUsers] = useState<Set<number>>(new Set())
 
   const {
     form,
@@ -31,19 +32,44 @@ const UserPage: React.FC = () => {
     pageNumber: pageNumber,
   })
 
-  const handleDelete = (user: User) => {
+  const { toggleBlockUser, isPending: isBlocking } = useBlockUser()
+
+  const isUserBlocked = (userId?: number) => {
+    console.log('Blocked users:', blockedUsers);
+    
+    return userId ? blockedUsers.has(userId) : false
+  }
+
+  const handleBlock = (user: User) => {
+    if (!user.id) return
+
+    const isCurrentlyBlocked = isUserBlocked(user.id)
+    const action = isCurrentlyBlocked ? 'bỏ chặn' : 'chặn'
+
     Modal.confirm({
-      title: 'Bạn có chắc chắn muốn xóa người dùng này?',
-      content: `Xóa người dùng ${user.name}`,
+      title: `Bạn có chắc chắn muốn ${action} người dùng này?`,
+      content: `${action} người dùng ${user.name}`,
       className: 'confirm-modal',
       style: { top: '50%' },
-      okText: 'Xóa',
-      okType: 'danger',
+      okText: action,
+      okType: isCurrentlyBlocked ? 'primary' : 'danger',
       cancelText: 'Hủy',
       onOk() {
-        // Implement delete API call here
-        console.log('Delete user:', user)
-        message.success('Xóa người dùng thành công')
+        toggleBlockUser({
+          userId: user.id!,
+          status: isCurrentlyBlocked,
+          onSuccess: () => {
+            setBlockedUsers((prev) => {
+              const newSet = new Set(prev)
+              if (isCurrentlyBlocked) {
+                newSet.delete(user.id!)
+              } else {
+                newSet.add(user.id!)
+              }
+              return newSet
+            })
+          },
+        })
       },
     })
   }
@@ -68,6 +94,23 @@ const UserPage: React.FC = () => {
       user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.phone?.includes(searchTerm),
   )
+
+  // Handle when component mounts, get list of blocked users (if any) from localStorage
+  useEffect(() => {
+    const savedBlockedUsers = localStorage.getItem('blockedUsers')
+    if (savedBlockedUsers) {
+      const parsedUsers = JSON.parse(savedBlockedUsers) as number[]
+      setBlockedUsers(new Set(parsedUsers))
+    }
+  }, [])
+
+  // Save blocked users list to localStorage when there is a change
+  useEffect(() => {
+    localStorage.setItem(
+      'blockedUsers',
+      JSON.stringify(Array.from(blockedUsers)),
+    )
+  }, [blockedUsers])
 
   return (
     <div style={{ padding: 24 }}>
@@ -100,7 +143,9 @@ const UserPage: React.FC = () => {
           data={filteredData}
           loading={isLoading}
           onEdit={handleEdit}
-          onDelete={handleDelete}
+          onBlock={handleBlock}
+          isBlockLoading={isBlocking}
+          blockedUserIds={blockedUsers}
         />
 
         <div style={{ marginTop: 16 }}>

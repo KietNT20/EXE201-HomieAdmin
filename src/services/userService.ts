@@ -15,4 +15,10 @@ export const userService = {
   updateUser(userId: number, payload: UserPayload) {
     return axiosInstance.put(`${API.USER_API.UPDATE}/${userId}`, payload)
   },
+  blockUser(userId: number, status: boolean) {
+    return axiosInstance.put(`${API.USER_API.BLOCK}${userId}?status=${status}`)
+  },
+  unblockUser(userId: number) {
+    return axiosInstance.put(`${API.USER_API.BLOCK}${userId}?status=false`)
+  },
 }

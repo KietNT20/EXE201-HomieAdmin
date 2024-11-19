@@ -43,7 +43,7 @@ export const API = {
     GET_BY_ID: USER + '/getById',
     CREATE: USER + '/create',
     UPDATE: USER + '/update',
-    GET_USER_BY_TOKEN: USER + '/get-user-by-token/',
+    BLOCK: USER + '/updateStatus/',
   },
   CATEGORY_API: {
     GET_ALL: '/Category/getAll',

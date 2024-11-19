@@ -1,4 +1,4 @@
-import { JobPostStatus } from "./types.utils"
+import { JobPostStatus } from './types.utils'
 
 export enum RoleUser {
   ADMIN = 1,

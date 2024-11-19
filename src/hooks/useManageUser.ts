@@ -108,3 +108,34 @@ export const useUpdateUser = (userId: number) => {
 
   return { doUpdateUser, ...rest }
 }
+
+interface BlockUserParams {
+  userId: number
+  status: boolean
+  onSuccess?: () => void
+}
+
+export const useBlockUser = () => {
+  const queryClient = useQueryClient()
+  const { mutate: toggleBlockUser, ...rest } = useMutation({
+    mutationFn: ({ userId, status }: BlockUserParams) =>
+      userService.blockUser(userId, status),
+    onSuccess: async (_, { onSuccess }) => {
+      await queryClient.invalidateQueries({
+        queryKey: ['users'],
+      })
+      notification.success({
+        message: 'Thay đổi trạng thái người dùng thành công',
+      })
+      onSuccess?.()
+    },
+    onError: (err) => {
+      console.error('Error:', err)
+      notification.error({
+        message: 'Thay đổi trạng thái người dùng thất bại',
+      })
+    },
+  })
+
+  return { toggleBlockUser, ...rest }
+}
