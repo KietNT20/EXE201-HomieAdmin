@@ -47,8 +47,8 @@ const UserTable = ({
       dataIndex: 'gender',
       key: 'gender',
       render: (gender: string) => (
-        <Tag color={gender === 'male' ? 'blue' : 'pink'}>
-          {gender === 'male' ? 'Nam' : 'Nữ'}
+        <Tag color={gender === 'Male' ? 'blue' : 'pink'}>
+          {gender === 'Male' ? 'Nam' : 'Nữ'}
         </Tag>
       ),
     },
@@ -108,6 +108,8 @@ const UserTable = ({
       columns={columns}
       dataSource={data}
       rowKey="id"
+      size="middle"
+      bordered
       loading={loading}
       pagination={false}
     />

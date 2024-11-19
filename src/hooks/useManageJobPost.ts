@@ -16,6 +16,20 @@ export const useGetAllJobPosts = () => {
   }
 }
 
+export const useGetAllJobPostsPending = () => {
+  const { data, ...rest } = useQuery<JobPostResponse>({
+    queryKey: ['jobPostsPending'],
+    queryFn: () => jobPostService.getJobPostPending(),
+    staleTime: 10000,
+    throwOnError: true,
+  })
+
+  return {
+    data,
+    ...rest,
+  }
+}
+
 export const useGetJobPostById = (jobPostId?: string | number | null) => {
   const { data, ...rest } = useQuery({
     queryKey: ['jobPostDetail', jobPostId],

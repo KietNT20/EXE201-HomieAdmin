@@ -15,6 +15,25 @@ const AddMoneyButton = ({ userId, disabled }: AddMoneyButtonProps) => {
   const [form] = Form.useForm<AddMoneyFormValues>()
   const { doAddMoney, isPending } = useAddMoney()
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value
+    value = value.replace(/\D/g, '')
+    if (value) {
+      const numericValue = parseInt(value)
+      form.setFieldValue('balance', numericValue)
+    } else {
+      form.setFieldValue('balance', null)
+    }
+  }
+
+  const formatDisplayValue = (value: number | null) => {
+    if (!value) return ''
+    if (value >= 1000) {
+      return Math.floor(value).toString()
+    }
+    return Math.floor(value).toString()
+  }
+
   const handleAddMoney = () => {
     Modal.confirm({
       title: 'Xác nhận thêm tiền',
@@ -27,20 +46,32 @@ const AddMoneyButton = ({ userId, disabled }: AddMoneyButtonProps) => {
               { required: true, message: 'Vui lòng nhập số tiền' },
               {
                 type: 'number',
-                min: 1000,
+                min: 1,
                 transform: (value) => Number(value),
                 message: 'Số tiền phải lớn hơn 1,000đ',
               },
             ]}
           >
             <Input
-              type="number"
+              type="text"
               prefix="VND"
-              placeholder="Nhập số tiền"
-              min={1000}
-              step={1000}
+              placeholder="Nhập số tiền (1 = 1.000đ)"
+              onChange={handleInputChange}
+              value={formatDisplayValue(form.getFieldValue('balance') as number | null)}
             />
           </Form.Item>
+          {/* Hiển thị số tiền thực tế */}
+          {form.getFieldValue('balance') && (
+            <div style={{ marginTop: -20, marginBottom: 16 }}>
+              <small style={{ color: '#666' }}>
+                Số tiền thực tế:{' '}
+                {(form.getFieldValue('balance') as number)?.toLocaleString(
+                  'vi-VN',
+                )}
+                đ
+              </small>
+            </div>
+          )}
         </Form>
       ),
       icon: <PlusCircleOutlined />,
@@ -51,11 +82,10 @@ const AddMoneyButton = ({ userId, disabled }: AddMoneyButtonProps) => {
           const values = await form.validateFields()
           doAddMoney({
             userId,
-            balance: values.balance,
+            balance: values.balance * 1000,
           })
           form.resetFields()
         } catch (error) {
-          // Validation error
           console.log('Validate Failed:', error)
         }
       },

@@ -76,17 +76,11 @@ const UserPage = () => {
   )
 
   return (
-    <div style={{ padding: 24 }}>
+    <div className="p-4">
       <Card>
-        <div style={{ marginBottom: 16 }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginBottom: 16,
-            }}
-          >
-            <h1 style={{ fontSize: 24, margin: 0 }}>Quản lý người dùng</h1>
+        <div className="mb-4">
+          <div className="flex justify-between mb-4">
+            <h2 style={{ fontSize: 24, margin: 0 }}>Quản lý người dùng</h2>
             <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
               Thêm mới
             </Button>
@@ -98,7 +92,7 @@ const UserPage = () => {
             enterButton
             prefix={<SearchOutlined />}
             onSearch={handleSearch}
-            style={{ width: 500 }}
+            className="w-2/5"
           />
         </div>
 

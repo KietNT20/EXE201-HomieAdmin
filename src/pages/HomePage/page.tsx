@@ -1,3 +1,6 @@
+import { useDashboardData } from '@/hooks/useDashBoard'
+import { useGetAllJobPostsPending } from '@/hooks/useManageJobPost'
+import { useGetApiUsers } from '@/hooks/useManageUser'
 import {
   CalendarOutlined,
   CheckCircleOutlined,
@@ -18,6 +21,7 @@ import {
   Tooltip,
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
+import { chartData, chartOptions } from './useHomePageLogic'
 
 const { Title: AntTitle } = Typography
 
@@ -33,42 +37,9 @@ ChartJS.register(
 )
 
 const HomePage = () => {
-  // Mock data cho biểu đồ
-  const chartData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [
-      {
-        label: 'Doanh thu 2024',
-        data: [30, 45, 57, 48, 65, 59],
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-      {
-        label: 'Doanh thu 2023',
-        data: [25, 38, 45, 35, 50, 45],
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-    ],
-  }
-
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-      title: {
-        display: false,
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-    maintainAspectRatio: false,
-  }
+  const { getAllUsersData } = useGetApiUsers({ pageSize: '', pageNumber: '' })
+  const { totalApplication, totalPost } = useDashboardData()
+  const { data: jobPostsPendingData } = useGetAllJobPostsPending()
 
   const recentActivities = [
     {
@@ -87,12 +58,11 @@ const HomePage = () => {
       icon: <DollarCircleOutlined style={{ color: '#faad14' }} />,
     },
   ]
-
   return (
-    <div className='p-6'>
+    <div className="p-4">
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
         {/* Welcome Section */}
-        <div className='text-center mb-5'>
+        <div className="text-center mb-5">
           <AntTitle>Welcome to Admin CMS Homie</AntTitle>
           <Typography.Text type="secondary">
             Quản lý và theo dõi hoạt động của hệ thống
@@ -105,7 +75,7 @@ const HomePage = () => {
             <Card>
               <Statistic
                 title="Tổng người dùng"
-                value={1234}
+                value={getAllUsersData?.data.data.totalItems}
                 prefix={<UserOutlined />}
                 valueStyle={{ color: '#1890ff' }}
               />
@@ -115,7 +85,7 @@ const HomePage = () => {
             <Card>
               <Statistic
                 title="Tổng bài đăng"
-                value={789}
+                value={totalPost}
                 prefix={<HomeOutlined />}
                 valueStyle={{ color: '#52c41a' }}
               />
@@ -125,7 +95,7 @@ const HomePage = () => {
             <Card>
               <Statistic
                 title="Đơn đăng ký"
-                value={456}
+                value={totalApplication}
                 prefix={<CheckCircleOutlined />}
                 valueStyle={{ color: '#faad14' }}
               />
@@ -135,7 +105,7 @@ const HomePage = () => {
             <Card>
               <Statistic
                 title="Đang chờ duyệt"
-                value={123}
+                value={jobPostsPendingData?.data?.data?.length}
                 prefix={<ClockCircleOutlined />}
                 valueStyle={{ color: '#ff4d4f' }}
               />
@@ -147,7 +117,7 @@ const HomePage = () => {
         <Row gutter={[16, 16]}>
           <Col xs={24} lg={16}>
             <Card title="Biểu đồ doanh thu">
-              <div className='h-96'>
+              <div className="h-96">
                 <Line options={chartOptions} data={chartData} />
               </div>
             </Card>

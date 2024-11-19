@@ -34,10 +34,7 @@ const UserForm = ({ form, onRoleChange }: UserFormProps) => {
       <Form.Item
         name="password"
         label="Mật khẩu"
-        rules={[
-          { required: true, message: 'Vui lòng nhập mật khẩu' },
-          { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự' },
-        ]}
+        rules={[{ min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự' }]}
       >
         <Input.Password />
       </Form.Item>
@@ -56,7 +53,16 @@ const UserForm = ({ form, onRoleChange }: UserFormProps) => {
         <Input />
       </Form.Item>
 
-      <Form.Item name="dateOfBirth" label="Ngày sinh">
+      <Form.Item
+        name="dateOfBirth"
+        label="Ngày sinh"
+        rules={[
+          {
+            required: true,
+            message: 'Vui lòng chọn ngày sinh',
+          },
+        ]}
+      >
         <DatePicker format="DD/MM/YYYY" style={{ width: '100%' }} />
       </Form.Item>
 

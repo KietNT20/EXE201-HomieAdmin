@@ -37,7 +37,7 @@ export const useUserForm = () => {
       email: user.email,
       phone: user.phone,
       gender: user.gender,
-      password: user.password,
+      password: user.password || '',
       dateOfBirth: user.dateOfBirth ? dayjs(user.dateOfBirth) : undefined,
       roleId: user.roleId,
     })
@@ -98,7 +98,10 @@ export const useUserForm = () => {
             if (editingUser) {
               doUpdateUser(payload)
             } else {
-              doCreateUser(payload)
+              doCreateUser({
+                ...payload,
+                password: values.password || 'staff123',
+              })
             }
             setIsModalVisible(false)
             form.resetFields()

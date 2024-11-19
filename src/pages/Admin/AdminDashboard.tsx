@@ -32,7 +32,6 @@ const AdminDashboard = () => {
     useDashboardData()
   const { data: jobPostsData, isLoading: isJobPostsLoading } =
     useGetAllJobPosts()
-  console.log(jobPostsData)
 
   if (isLoading || isJobPostsLoading) {
     return (

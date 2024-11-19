@@ -5,8 +5,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { notification } from 'antd'
 
 export const useGetApiUsers = (params: {
-  pageSize?: number
-  pageNumber?: number
+  pageSize?: number | string | undefined
+  pageNumber?: number | string | undefined
 }) => {
   const { data: getAllUsersData, ...rest } = useQuery<UserListResponse>({
     queryKey: ['users', params.pageNumber, params.pageSize],
@@ -92,7 +92,7 @@ export const useUpdateUser = (userId: number) => {
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ['users', userId],
+        queryKey: ['users'],
       })
       notification.success({
         message: 'Update user successfully',

@@ -47,7 +47,7 @@ const MainLayout = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div>
+        <div className="w-full">
           <img src={logo} alt="Logo Homie" className="object-cover" />
         </div>
         <Menu
@@ -108,6 +108,8 @@ const MainLayout = () => {
             margin: '24px 16px',
             minHeight: 280,
             background: colorBgContainer,
+            borderWidth: 1,
+            overflow: 'hidden',
             borderRadius: borderRadiusLG,
           }}
         >
