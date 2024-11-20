@@ -16,8 +16,7 @@ const AddMoneyButton = ({ userId, disabled }: AddMoneyButtonProps) => {
   const { doAddMoney, isPending } = useAddMoney()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value
-    value = value.replace(/\D/g, '')
+    const value = e.target.value
     if (value) {
       const numericValue = parseInt(value)
       form.setFieldValue('balance', numericValue)
@@ -28,9 +27,6 @@ const AddMoneyButton = ({ userId, disabled }: AddMoneyButtonProps) => {
 
   const formatDisplayValue = (value: number | null) => {
     if (!value) return ''
-    if (value >= 1000) {
-      return Math.floor(value).toString()
-    }
     return Math.floor(value).toString()
   }
 
