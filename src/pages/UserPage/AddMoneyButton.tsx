@@ -46,9 +46,8 @@ const AddMoneyButton = ({ userId, disabled }: AddMoneyButtonProps) => {
               { required: true, message: 'Vui lòng nhập số tiền' },
               {
                 type: 'number',
-                min: 1,
                 transform: (value) => Number(value),
-                message: 'Số tiền phải lớn hơn 1,000đ',
+                message: 'Nhập 1 là thêm 1.000đ và -1 là trừ 1.000đ',
               },
             ]}
           >
@@ -57,7 +56,9 @@ const AddMoneyButton = ({ userId, disabled }: AddMoneyButtonProps) => {
               prefix="VND"
               placeholder="Nhập số tiền (1 = 1.000đ)"
               onChange={handleInputChange}
-              value={formatDisplayValue(form.getFieldValue('balance') as number | null)}
+              value={formatDisplayValue(
+                form.getFieldValue('balance') as number | null,
+              )}
             />
           </Form.Item>
           {/* Hiển thị số tiền thực tế */}
