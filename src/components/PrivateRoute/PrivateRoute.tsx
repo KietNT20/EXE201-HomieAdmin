@@ -11,7 +11,7 @@ interface PrivateRouteProps {
 const PrivateRoute = ({ redirectPath = PATH.LOGIN }: PrivateRouteProps) => {
   const token = tokenMethod.get()?.token
   const { userProfile } = useAppSelector((state) => state.profile)
-  if (!token || userProfile?.roleId !== RoleUser.ADMIN) {
+  if (!token && userProfile?.roleId !== RoleUser.ADMIN) {
     return <Navigate replace to={redirectPath} />
   }
 

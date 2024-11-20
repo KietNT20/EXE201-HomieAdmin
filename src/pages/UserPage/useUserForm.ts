@@ -100,7 +100,7 @@ export const useUserForm = () => {
             } else {
               doCreateUser({
                 ...payload,
-                password: values.password || 'staff123',
+                password: values.password || 'user123',
               })
             }
             setIsModalVisible(false)

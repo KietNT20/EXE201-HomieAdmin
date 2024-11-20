@@ -93,7 +93,7 @@ const UserTable = ({
             type={record.status ? 'primary' : 'default'}
             icon={record.status ? <LockOutlined /> : <UnlockOutlined />}
             onClick={() => onBlock(record)}
-            disabled={!record.id}
+            disabled={!record.id || record.roleId === RoleUser.ADMIN}
           >
             {record.status ? 'Chặn' : 'Bỏ chặn'}
           </Button>

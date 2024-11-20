@@ -1,4 +1,5 @@
 import { ROLE_NAMES } from '@/constant/user.constants'
+import { RoleUser } from '@/types/types.common'
 import { DatePicker, Form, Input, Select } from 'antd'
 import { FormInstance } from 'antd/lib/form'
 
@@ -36,7 +37,7 @@ const UserForm = ({ form, onRoleChange }: UserFormProps) => {
         label="Mật khẩu"
         rules={[{ min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự' }]}
       >
-        <Input.Password />
+        <Input.Password placeholder="pass mặc định lúc tạo: user123" />
       </Form.Item>
 
       <Form.Item
@@ -45,12 +46,12 @@ const UserForm = ({ form, onRoleChange }: UserFormProps) => {
         rules={[
           { required: true, message: 'Vui lòng nhập số điện thoại' },
           {
-            pattern: /^[0-9]{10}$/,
+            pattern: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
             message: 'Số điện thoại không hợp lệ',
           },
         ]}
       >
-        <Input />
+        <Input placeholder='Số điện thoại VN' />
       </Form.Item>
 
       <Form.Item
@@ -85,6 +86,7 @@ const UserForm = ({ form, onRoleChange }: UserFormProps) => {
         <Select
           placeholder="Chọn vai trò"
           onChange={(value) => onRoleChange?.(Number(value))}
+          disabled={form?.getFieldValue('roleId') === RoleUser.ADMIN}
         >
           {Object.entries(ROLE_NAMES).map(([value, label]) => (
             <Option key={value} value={Number(value)}>
