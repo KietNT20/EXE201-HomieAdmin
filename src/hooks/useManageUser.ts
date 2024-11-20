@@ -15,6 +15,7 @@ export const useGetApiUsers = (params: {
         `?pageSize=${params.pageSize}&pageNumber=${params.pageNumber}`,
       ),
     throwOnError: true,
+    staleTime: 10000,
   })
 
   return {
