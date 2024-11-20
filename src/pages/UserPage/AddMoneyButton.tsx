@@ -41,8 +41,6 @@ const AddMoneyButton = ({ userId, disabled }: AddMoneyButtonProps) => {
             rules={[
               { required: true, message: 'Vui lòng nhập số tiền' },
               {
-                type: 'number',
-                transform: (value) => Number(value),
                 message: 'Nhập 1 là thêm 1.000đ và -1 là trừ 1.000đ',
               },
             ]}
