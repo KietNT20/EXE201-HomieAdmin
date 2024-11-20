@@ -18,16 +18,10 @@ const AddMoneyButton = ({ userId, disabled }: AddMoneyButtonProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     if (value) {
-      const numericValue = parseInt(value)
-      form.setFieldValue('balance', numericValue)
+      form.setFieldValue('balance', value)
     } else {
       form.setFieldValue('balance', null)
     }
-  }
-
-  const formatDisplayValue = (value: number | null) => {
-    if (!value) return ''
-    return Math.floor(value).toString()
   }
 
   const handleAddMoney = () => {
@@ -50,9 +44,7 @@ const AddMoneyButton = ({ userId, disabled }: AddMoneyButtonProps) => {
               prefix="VND"
               placeholder="Nhập số tiền (1 = 1.000đ)"
               onChange={handleInputChange}
-              value={formatDisplayValue(
-                form.getFieldValue('balance') as number | null,
-              )}
+              value={form.getFieldValue('balance') as string}
             />
           </Form.Item>
           {/* Hiển thị số tiền thực tế */}
