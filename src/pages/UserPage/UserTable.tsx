@@ -22,7 +22,7 @@ const UserTable = ({
 }: UserTableProps) => {
   const columns = [
     {
-      title: 'ID',
+      title: 'No.',
       dataIndex: 'id',
       key: 'id',
     },
